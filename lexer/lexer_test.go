@@ -7,18 +7,30 @@ import (
 )
 
 func TestNextToken(t *testing.T) {
-	input := `=+-!/* `
+	input := `let a = 10;
+	fn (a, b) {
+		return 10;
+	}`
 	tests := []struct {
 		expectedType    token.TokenType
 		expectedLiteral string
 	}{
+		{token.LET, "let"},
+		{token.IDENT, "a"},
 		{token.ASSIGN, "="},
-		{token.PLUS, "+"},
-		{token.MINUS, "-"},
-		{token.BANG, "!"},
-		{token.SLASH, "/"},
-		{token.ASTERISK, "*"},
-		{token.ILLEGAL, " "},
+		{token.INT, "10"},
+		{token.SEMICOLON, ";"},
+		{token.FUNCTION, "fn"},
+		{token.LPAREN, "("},
+		{token.IDENT, "a"},
+		{token.COMMA, ","},
+		{token.IDENT, "b"},
+		{token.RPAREN, ")"},
+		{token.LBRACE, "{"},
+		{token.RETURN, "return"},
+		{token.INT, "10"},
+		{token.SEMICOLON, ";"},
+		{token.RBRACE, "}"},
 		{token.EOF, ""},
 	}
 
