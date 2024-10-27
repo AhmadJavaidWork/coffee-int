@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/ahmadjavaidwork/coffee-int/evaluator"
 	"github.com/ahmadjavaidwork/coffee-int/lexer"
 	"github.com/ahmadjavaidwork/coffee-int/parser"
 )
@@ -41,8 +42,11 @@ func Start(in io.Reader, out io.Writer) {
 			continue
 		}
 
-		io.WriteString(out, program.String())
-		io.WriteString(out, "\n")
+		evaulated := evaluator.Eval(program)
+		if evaulated != nil {
+			io.WriteString(out, evaulated.Inspect())
+			io.WriteString(out, "\n")
+		}
 	}
 }
 
