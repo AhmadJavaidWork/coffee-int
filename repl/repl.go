@@ -7,6 +7,7 @@ import (
 
 	"github.com/ahmadjavaidwork/coffee-int/evaluator"
 	"github.com/ahmadjavaidwork/coffee-int/lexer"
+	"github.com/ahmadjavaidwork/coffee-int/object"
 	"github.com/ahmadjavaidwork/coffee-int/parser"
 )
 
@@ -25,6 +26,8 @@ const COFFE_CUP = `
 
 func Start(in io.Reader, out io.Writer) {
 	scanner := bufio.NewScanner(in)
+	env := object.NewEnvironment()
+
 	for {
 		fmt.Print(PROMPT)
 		scanned := scanner.Scan()
@@ -42,7 +45,7 @@ func Start(in io.Reader, out io.Writer) {
 			continue
 		}
 
-		evaulated := evaluator.Eval(program)
+		evaulated := evaluator.Eval(program, env)
 		if evaulated != nil {
 			io.WriteString(out, evaulated.Inspect())
 			io.WriteString(out, "\n")
