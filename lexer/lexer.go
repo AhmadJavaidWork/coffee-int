@@ -22,67 +22,53 @@ func (l *Lexer) NextToken() token.Token {
 
 	switch l.ch {
 	case 0:
-		t.Type = token.EOF
-		t.Literal = ""
+		t = token.Token{Type: token.EOF, Literal: ""}
 	case '=':
 		if l.peekChar() == '=' {
 			ch := l.ch
 			l.readChar()
-			t.Type = token.EQ
-			t.Literal = string(ch) + string(l.ch)
+			t = token.Token{Type: token.EQ, Literal: string(ch) + string(l.ch)}
 		} else {
-			t.Type = token.ASSIGN
-			t.Literal = "="
+			t = token.Token{Type: token.ASSIGN, Literal: "="}
 		}
 	case '+':
-		t.Type = token.PLUS
-		t.Literal = "+"
+		t = token.Token{Type: token.PLUS, Literal: "+"}
 	case '-':
-		t.Type = token.MINUS
-		t.Literal = "-"
+		t = token.Token{Type: token.MINUS, Literal: "-"}
 	case '!':
 		if l.peekChar() == '=' {
 			ch := l.ch
 			l.readChar()
-			t.Type = token.NOT_EQ
-			t.Literal = string(ch) + string(l.ch)
+			t = token.Token{Type: token.NOT_EQ, Literal: string(ch) + string(l.ch)}
 		} else {
-			t.Type = token.BANG
-			t.Literal = "!"
+			t = token.Token{Type: token.BANG, Literal: "!"}
 		}
 	case '/':
-		t.Type = token.SLASH
-		t.Literal = "/"
+		t = token.Token{Type: token.SLASH, Literal: "/"}
 	case '*':
-		t.Type = token.ASTERISK
-		t.Literal = "*"
+		t = token.Token{Type: token.ASTERISK, Literal: "*"}
 	case '<':
-		t.Type = token.LT
-		t.Literal = "<"
+		t = token.Token{Type: token.LT, Literal: "<"}
 	case '>':
-		t.Type = token.GT
-		t.Literal = ">"
+		t = token.Token{Type: token.GT, Literal: ">"}
 	case ',':
-		t.Type = token.COMMA
-		t.Literal = ","
+		t = token.Token{Type: token.COMMA, Literal: ","}
 	case ';':
-		t.Type = token.SEMICOLON
-		t.Literal = ";"
+		t = token.Token{Type: token.SEMICOLON, Literal: ";"}
 	case '(':
-		t.Type = token.LPAREN
-		t.Literal = "("
+		t = token.Token{Type: token.LPAREN, Literal: "("}
 	case ')':
-		t.Type = token.RPAREN
-		t.Literal = ")"
+		t = token.Token{Type: token.RPAREN, Literal: ")"}
 	case '{':
-		t.Type = token.LBRACE
-		t.Literal = "{"
+		t = token.Token{Type: token.LBRACE, Literal: "{"}
 	case '}':
-		t.Type = token.RBRACE
-		t.Literal = "}"
+		t = token.Token{Type: token.RBRACE, Literal: "}"}
 	case '"':
-		t.Type = token.STRING
-		t.Literal = l.readString()
+		t = token.Token{Type: token.STRING, Literal: l.readString()}
+	case '[':
+		t = token.Token{Type: token.LBRACKET, Literal: "["}
+	case ']':
+		t = token.Token{Type: token.RBRACKET, Literal: "]"}
 	default:
 		if isLetter(l.ch) {
 			t.Literal = l.readIdentifier(isLetter)
