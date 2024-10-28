@@ -80,6 +80,9 @@ func (l *Lexer) NextToken() token.Token {
 	case '}':
 		t.Type = token.RBRACE
 		t.Literal = "}"
+	case '"':
+		t.Type = token.STRING
+		t.Literal = l.readString()
 	default:
 		if isLetter(l.ch) {
 			t.Literal = l.readIdentifier(isLetter)
@@ -140,4 +143,15 @@ func (l *Lexer) skipWhiteSpace() {
 	for l.ch == ' ' || l.ch == '\t' || l.ch == '\n' || l.ch == '\r' {
 		l.readChar()
 	}
+}
+
+func (l *Lexer) readString() string {
+	position := l.position + 1
+	for {
+		l.readChar()
+		if l.ch == '"' || l.ch == 0 {
+			break
+		}
+	}
+	return l.input[position:l.position]
 }
